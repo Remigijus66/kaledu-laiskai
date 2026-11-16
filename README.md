@@ -146,5 +146,8 @@ GitHub Pages nemato `.env.local`, todėl Supabase reikšmes reikės perduoti per
 ## Žinomi apribojimai
 
 - Du žmonės vienu metu redaguojantys tą patį puslapį: laimi paskutinis išsaugojimas (realaus laiko sinchronizacijos nėra).
-- Į piešinį įkelti paveikslėliai neišsaugomi, tik figūros, linijos ir tekstas.
+- Į piešinį įdėti paveikslėliai saugomi atskirame lauke `drawing_files` (reikia paleisti atnaujintą `supabase.sql`).
+  Saugant jie sumažinami (iki 1100 px, JPEG kokybė 0,75; PNG lieka PNG dėl skaidrumo, GIF ir SVG nekeičiami), kad
+  neapkrautų duomenų bazės. Nuotraukos, kurios buvo įdėtos prieš šią funkciją, nebuvo išsaugotos, todėl jas reikia įdėti iš naujo.
+  Jei `drawing_files` stulpelio dar nėra, piešiniai rodomi kaip anksčiau, bet paveikslėliai neišsaugomi.
 - Puslapių pavadinimai keičiami `src/pages.ts`.

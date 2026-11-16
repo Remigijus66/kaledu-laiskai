@@ -9,12 +9,16 @@ create table if not exists public.pages (
   id         text primary key,
   content    jsonb,
   drawing    jsonb,
+  drawing_files jsonb,
   checks     jsonb,
   updated_at timestamptz not null default now()
 );
 
 -- Jei lentelė buvo sukurta anksčiau (be žymimųjų langelių), pridedame trūkstamą stulpelį.
 alter table public.pages add column if not exists checks jsonb;
+
+-- Piešinyje įdėtų paveikslėlių duomenys (data URL) saugomi atskirai nuo piešinio elementų.
+alter table public.pages add column if not exists drawing_files jsonb;
 
 -- PIN'ų lentelė: RLS įjungtas ir jokios politikos nėra, anoniminis raktas jos nemato.
 create table if not exists public.page_pins (
@@ -84,7 +88,7 @@ returns text
 language plpgsql security definer set search_path = public, extensions as $$
 declare res text;
 begin
-  if p_field not in ('content', 'drawing', 'checks') then raise exception 'neleistinas laukas'; end if;
+  if p_field not in ('content', 'drawing', 'drawing_files', 'checks') then raise exception 'neleistinas laukas'; end if;
   res := public._check_pin(p_id, p_pin);
   if res <> 'ok' then return res; end if;
 
@@ -94,6 +98,9 @@ begin
   elsif p_field = 'drawing' then
     insert into public.pages (id, drawing, updated_at) values (p_id, p_value, now())
     on conflict (id) do update set drawing = excluded.drawing, updated_at = now();
+  elsif p_field = 'drawing_files' then
+    insert into public.pages (id, drawing_files, updated_at) values (p_id, p_value, now())
+    on conflict (id) do update set drawing_files = excluded.drawing_files, updated_at = now();
   else
     insert into public.pages (id, checks, updated_at) values (p_id, p_value, now())
     on conflict (id) do update set checks = excluded.checks, updated_at = now();

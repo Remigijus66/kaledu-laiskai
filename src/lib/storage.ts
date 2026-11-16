@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 
 // Tekstas (TipTap JSON) ir piešinys (Excalidraw elementai) saugomi atskirai,
 // kad vieno redagavimas neperrašytų kito.
-export type Field = 'content' | 'drawing' | 'checks'
+export type Field = 'content' | 'drawing' | 'drawing_files' | 'checks'
 export type PinResult = 'ok' | 'wrong' | 'locked'
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
