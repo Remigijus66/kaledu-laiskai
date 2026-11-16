@@ -62,11 +62,13 @@ function Canvas({
 
               // Paveikslėlių duomenys: saugome, kai pasikeičia įdėtų paveikslėlių rinkinys
               if (!editable || !filesLoaded) return
-              const ids = referencedFileIds(live)
-              const key = ids.join(',')
               const available = files as unknown as Record<string, DrawingFile>
-              // Įdėjus paveikslėlį elementas atsiranda anksčiau nei jo duomenys, todėl laukiame kito pakeitimo
-              if (key === lastFilesKey.current || !ids.every((id) => available[id])) return
+              // Saugome tik tuos paveikslėlius, kurių duomenys jau yra. Įdėjus paveikslėlį elementas atsiranda anksčiau
+              // nei jo duomenys (vėliau šauksis onChange dar kartą), o seni paveikslėliai be failo (išsaugoti
+              // prieš atsirandant šiai funkcijai) neturi blokuoti naujų.
+              const ids = referencedFileIds(live).filter((id) => available[id])
+              const key = ids.join(',')
+              if (key === lastFilesKey.current) return
               lastFilesKey.current = key
               const token = ++filesToken.current
               void collectFiles(ids, available).then((saved) => {
