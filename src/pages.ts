@@ -68,7 +68,7 @@ export const PAGES: PageInfo[] = [
     description: 'Trečiasis laiškas',
     image: jolitutePhoto, // resoures/jolitute.JPG
     spot: { x: 31, y: 67, size: 22 },
-    questions: [q('Ankstirytą kėlusi pagaminau šimtatukstančiumilijonų pusryčių ir pietų'), q('Prirašiau visokių kursinių diplominių grąžių darbelių ir dar žadu prirašyti'), q('Labai stengiausi išmokti prancūzų kalbą'), q('Buvau didžiai susikoncentravusi į savo užduotis ir nei karto neužmigau ką nors darydama, neužmigau net prie televizoriaus'), TOOTHBRUSH],
+    questions: [q('Ankstirytą kėlusi pagaminau šimta-tukstančiu-milijonų pusryčių ir pietų'), q('Prirašiau visokių kursinių diplominių grąžių darbelių ir dar žadu prirašyti'), q('Labai stengiausi išmokti prancūzų kalbą'), q('Buvau didžiai susikoncentravusi į savo užduotis ir nei karto neužmigau ką nors darydama, neužmigau net prie televizoriaus'), TOOTHBRUSH],
   },
   {
     id: 'laiskas-4',
